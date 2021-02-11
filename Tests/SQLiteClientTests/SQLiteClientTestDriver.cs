@@ -19,13 +19,14 @@ namespace SQLiteClientTests
 			Console.WriteLine("Create connection...");
 			SQLiteConnection con = new SQLiteConnection();
 
-			string dbFilename = @"SqliteTest3.db";
+            //string dbFilename = @"SqliteTest3.db";
+            string dbFilename = @"C:\Publish\Sony\trophy_local.db";
 			string cs = string.Format("Version=3;uri=file:{0}", dbFilename);
 
 			Console.WriteLine("Set connection String: {0}", cs);
 
 			if(File.Exists(dbFilename))
-				File.Delete(dbFilename);
+			//	File.Delete(dbFilename);
 
 			con.ConnectionString = cs;
 
@@ -33,34 +34,36 @@ namespace SQLiteClientTests
 			con.Open();
 
 			Console.WriteLine("create command...");
-			IDbCommand cmd = con.CreateCommand();
+	        IDbCommand cmd = con.CreateCommand();
 
-			Console.WriteLine("create table TEST_TABLE...");
-			cmd.CommandText = "CREATE TABLE TEST_TABLE ( COLA INTEGER, COLB TEXT, COLC DATETIME )";
-			cmd.ExecuteNonQuery();
+			//Console.WriteLine("create table TEST_TABLE...");
+			//cmd.CommandText = "CREATE TABLE TEST_TABLE ( COLA INTEGER, COLB TEXT, COLC DATETIME )";
+			//cmd.ExecuteNonQuery();
 
-			Console.WriteLine("insert row 1...");
-			cmd.CommandText = "INSERT INTO TEST_TABLE ( COLA, COLB, COLC ) VALUES (123,'ABC','2008-12-31 18:19:20' )";
+			//Console.WriteLine("insert row 1...");
+			//cmd.CommandText = "INSERT INTO TEST_TABLE ( COLA, COLB, COLC ) VALUES (123,'ABC','2008-12-31 18:19:20' )";
 
-			cmd.ExecuteNonQuery();
+			//cmd.ExecuteNonQuery();
 
-			Console.WriteLine("insert row 2...");
-			cmd.CommandText = "INSERT INTO TEST_TABLE ( COLA, COLB, COLC ) VALUES (124,'DEF', '2009-11-16 13:35:36' )";
-			cmd.ExecuteNonQuery();
+			//Console.WriteLine("insert row 2...");
+			//cmd.CommandText = "INSERT INTO TEST_TABLE ( COLA, COLB, COLC ) VALUES (124,'DEF', '2009-11-16 13:35:36' )";
+			//cmd.ExecuteNonQuery();
 
 			//Console.WriteLine("commit...");
 			//cmd.CommandText = "COMMIT";
 			//cmd.ExecuteNonQuery();
 
-			Console.WriteLine("SELECT data from TEST_TABLE...");
-			cmd.CommandText = "SELECT COLA, COLB, COLC FROM TEST_TABLE";
+			Console.WriteLine(@"SELECT * FROM tbl_trophy_flag
+Where trophy_title_id='NPWR06063_00'");
+			cmd.CommandText = @"SELECT * FROM tbl_trophy_flag
+Where trophy_title_id='NPWR06063_00'";
 			IDataReader reader = cmd.ExecuteReader();
 			int r = 0;
 			Console.WriteLine("Read the data...");
 			while(reader.Read())
 			{
 				Console.WriteLine("  Row: {0}", r);
-				int i = reader.GetInt32(reader.GetOrdinal("COLA"));
+				int i = reader.GetInt32(reader.GetOrdinal("id"));
 				Console.WriteLine("    COLA: {0}", i);
 
 				string s = reader.GetString(reader.GetOrdinal("COLB"));
